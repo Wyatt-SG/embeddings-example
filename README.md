@@ -5,8 +5,10 @@
 1. Get an OpenAI API key [here](https://platform.openai.com/account/api-keys)
 
 1. Create `.env` file and set environment variables
-    ```bash
-    echo 'OPENAI_KEY=[YOUR KEY HERE]' >.env
+    ```.env
+    OPENAI_KEY=sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    PINECONE_KEY=XXXXXX-XXXXXXX-XXXXXX-XXXXXXX
+    PINECONE_ENV=XXXXXXX
     ```
 
 2. Active environment <br />
@@ -18,6 +20,6 @@
 
 3. Start server
     ```bash
-    flask app run
+    flask --app app run
     ```
     The server will be running at [http://127.0.0.1:5000/](http://127.0.0.1:5000/)

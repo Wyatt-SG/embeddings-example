@@ -1,13 +1,6 @@
-import openai
-from dotenv import load_dotenv
-import pinecone
-import os
+from config import openai, pinecone, EMBEDDING_MODEL, INDEX_NAME
 from datasets import load_dataset
 from tqdm.auto import tqdm
-
-load_dotenv()
-MODEL = "text-embedding-ada-002"
-openai.api_key = os.environ.get("OPENAI_KEY")
 
 
 def populate_index():
@@ -16,21 +9,17 @@ def populate_index():
             "Sample document text goes here",
             "there will be several phrases in each batch",
         ],
-        engine=MODEL,
+        engine=EMBEDDING_MODEL,
     )
 
     embeds = [record["embedding"] for record in res["data"]]
 
-    pinecone.init(
-        api_key=os.environ.get("PINECONE_KEY"),
-        environment=os.environ.get("PINECONE_ENV"),
-    )
-
     # check if 'openai' index already exists (only create index if not)
-    if "openai" not in pinecone.list_indexes():
-        pinecone.create_index("openai", dimension=len(embeds[0]))
+    if INDEX_NAME not in pinecone.list_indexes():
+        pinecone.create_index(INDEX_NAME, dimension=len(embeds[0]))
+
     # connect to index
-    index = pinecone.Index("openai")
+    index = pinecone.Index(INDEX_NAME)
 
     trec = load_dataset("trec", split="train[:1000]")
 
@@ -42,7 +31,7 @@ def populate_index():
         lines_batch = trec["text"][i : i + batch_size]
         ids_batch = [str(n) for n in range(i, i_end)]
         # create embeddings
-        res = openai.Embedding.create(input=lines_batch, engine=MODEL)
+        res = openai.Embedding.create(input=lines_batch, engine=EMBEDDING_MODEL)
         embeds = [record["embedding"] for record in res["data"]]
         # prep metadata and upsert batch
         meta = [{"text": line} for line in lines_batch]
