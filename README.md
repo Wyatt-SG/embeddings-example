@@ -2,7 +2,7 @@
 
 ## Getting started
 
-1. Get an OpenAI API key [here](https://platform.openai.com/account/api-keys)
+1. Get an OpenAI API key [here](https://platform.openai.com/account/api-keys) and a Pinecone API key [here](https://docs.pinecone.io/docs/quickstart)
 
 1. Create `.env` file and set environment variables
     ```.env
