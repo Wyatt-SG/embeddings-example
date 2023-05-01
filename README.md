@@ -17,7 +17,7 @@ This project uses a [Python virtual environment](https://docs.python.org/3/libra
     python3 -m venv .venv
     ```
 
-4. Active environment
+4. Activate environment
     ```bash
     . .venv/bin/activate
     ```
