@@ -1,6 +1,6 @@
 # Embeddings App
 
-Complete example of using OpenAI's [Embeddings API](https://beta.openai.com/docs/engines/embeddings) with [Pinecone](https://www.pinecone.io/) to complete a chat prompt
+Complete example of using OpenAI's [Embeddings API](https://platform.openai.com/docs/guides/embeddings) with [Pinecone](https://www.pinecone.io/) to complete a chat prompt
 
 ## Getting started
 
