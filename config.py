@@ -14,4 +14,4 @@ openai.api_key = os.environ.get("OPENAI_KEY")
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
 CHAT_MODEL = "gpt-3.5-turbo"
-INDEX_NAME = "openai"
+INDEX_NAME = "my-gpt"

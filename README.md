@@ -34,11 +34,15 @@ Populate the index with the seed data
 python3 scripts/populate_index.py
 ```
 
-## Start app
+## How to use
 
+1. Start app. The app will be running at [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+    ```bash
+    flask --app app run
+    ```
 
-```bash
-flask --app app run
-```
-
-The server will be running at [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+2. Send a chat prompt to the app
+    ```bash
+    curl --request POST \
+         --url http://127.0.0.1:5000/chat/who%20is%20wyatt
+    ```
