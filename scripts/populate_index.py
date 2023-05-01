@@ -1,9 +1,30 @@
-from config import openai, pinecone, EMBEDDING_MODEL, INDEX_NAME
-from datasets import load_dataset
 from tqdm.auto import tqdm
+import os
+import openai
+import pinecone
+from dotenv import load_dotenv
+import json
+
+load_dotenv()
+
+pinecone.init(
+    api_key=os.environ.get("PINECONE_KEY"),
+    environment=os.environ.get("PINECONE_ENV"),
+)
+
+openai.api_key = os.environ.get("OPENAI_KEY")
+
+EMBEDDING_MODEL = "text-embedding-ada-002"
+CHAT_MODEL = "gpt-3.5-turbo"
+INDEX_NAME = "sales-gpt"
 
 
 def populate_index():
+    with open("scripts/example-data.json", "r") as file:
+        data = json.load(file)
+
+    text_array = data["text"]
+
     res = openai.Embedding.create(
         input=[
             "Sample document text goes here",
@@ -21,14 +42,12 @@ def populate_index():
     # connect to index
     index = pinecone.Index(INDEX_NAME)
 
-    trec = load_dataset("trec", split="train[:1000]")
-
     batch_size = 32  # process everything in batches of 32
-    for i in tqdm(range(0, len(trec["text"]), batch_size)):
+    for i in tqdm(range(0, len(text_array), batch_size)):
         # set end position of batch
-        i_end = min(i + batch_size, len(trec["text"]))
+        i_end = min(i + batch_size, len(text_array))
         # get batch of lines and IDs
-        lines_batch = trec["text"][i : i + batch_size]
+        lines_batch = text_array[i : i + batch_size]
         ids_batch = [str(n) for n in range(i, i_end)]
         # create embeddings
         res = openai.Embedding.create(input=lines_batch, engine=EMBEDDING_MODEL)

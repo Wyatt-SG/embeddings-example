@@ -4,9 +4,9 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/search/<query>", methods=["POST"])
-def search(query):
-    xq = openai.Embedding.create(input=query, engine=EMBEDDING_MODEL)["data"][0][
+@app.route("/chat/<prompt>", methods=["POST"])
+def chat(prompt):
+    xq = openai.Embedding.create(input=prompt, engine=EMBEDDING_MODEL)["data"][0][
         "embedding"
     ]
 
@@ -26,7 +26,7 @@ def search(query):
                 "role": "system",
                 "content": f"Try to answer any questions using the following context. Potentially helpful context: {context}",
             },
-            {"role": "user", "content": query},
+            {"role": "user", "content": prompt},
         ],
     )
 
